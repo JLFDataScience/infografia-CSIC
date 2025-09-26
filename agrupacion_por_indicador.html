@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía Comparativa por Indicador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .bar-label {
+            width: 25%;
+            font-size: 0.875rem;
+            color: #4b5563;
+            text-align: right;
+            padding-right: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .bar-wrapper {
+            width: 75%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 1.5rem;
+        }
+        .bar {
+            background-color: #6366f1;
+            height: 1.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: width 0.5s ease-in-out;
+        }
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .nav-link.active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .nav-link:not(.active) {
+            background-color: #e0e7ff;
+            color: #4338ca;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div style="position: fixed; top: 1.5rem; left: 1.5rem; z-index: 50;">
+        <img src="https://fgcsic.es/wp-content/uploads/2022/03/Logo_Horizontal_Negro_Con_Color_Fondo_Transparente-1.png" alt="Logo FGCSIC" class="h-10 w-auto">
+        <p class="text-xs text-gray-700 font-semibold mt-1">Vigilancia Estratégica</p>
+    </div>
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 sm:text-4xl">Análisis comparativo de Instituciones de Investigación</h1>
+            <p class="mt-2 text-lg text-gray-600">Visualización de indicadores clave en el Área de Ciencias Sociales y Humanidades</p>
+        </header>
+        
+        <div class="flex justify-center items-center gap-12 mb-8">
+            <img src="https://www.csic.es/sites/default/files/ag-area_sociedad-perfilado.png" alt="Logo Área Sociedad CSIC" class="h-16 object-contain">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Logotipo_del_CSIC.svg/1024px-Logotipo_del_CSIC.svg.png" alt="Logo CSIC" class="h-16 object-contain">
+        </div>
+
+        <nav class="flex justify-center gap-4 mb-10">
+            <a href="backup_comparativa_instituciones.html" class="nav-link">Vista por Institución</a>
+            <a href="#" class="nav-link active">Vista por Indicador</a>
+        </nav>
+
+        <main>
+            <section id="estructura-section" class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-indigo-200 pb-2 mb-6">Estructura Organizativa</h2>
+                <div id="estructura-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+            </section>
+            
+            <section id="produccion-section" class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-teal-200 pb-2 mb-6">Producción Científica</h2>
+                <div id="produccion-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+            </section>
+
+            <section id="transferencia-section" class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-amber-200 pb-2 mb-6">Transferencia e Innovación</h2>
+                <div id="transferencia-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+            </section>
+
+            <section id="impacto-section" class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-sky-200 pb-2 mb-6">Impacto Social y Policy</h2>
+                <div id="impacto-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // --- DATA ---
+        // Includes CSIC data for benchmarking purposes, though it's not displayed in the institution list.
+        const allInstitutionsData = [
+            {
+                name: "CSIC", num_researchers: "~570", trainee_researchers: "≈ 1.000–1.100", female_researchers_pct: 43, private_funding_pct: 5, records_wos_10y: "557", q1_wos_pct: 42, h_index: "22", open_access_pct: 75, num_patents: "3", num_spinoffs: "1", international_grants: "10", policy_papers: "12", outreach_events: "~250-300"
+            },
+            { name: "CNRS", num_researchers: "9804", trainee_researchers: "~11500", female_researchers_pct: 35, private_funding_pct: 15, records_wos_10y: "10697", q1_wos_pct: 35, h_index: "109", open_access_pct: 65, num_patents: "28", num_spinoffs: "42", international_grants: "14", policy_papers: "~22", outreach_events: "~30" },
+            { name: "CNR", num_researchers: "435", trainee_researchers: "~400", female_researchers_pct: 52, private_funding_pct: 8, records_wos_10y: "3608", q1_wos_pct: 55, h_index: "122", open_access_pct: 60, num_patents: "49", num_spinoffs: "49", international_grants: "20", policy_papers: "~25", outreach_events: "~38" },
+            { name: "Helmholtz-Gemeinschaft", num_researchers: "5871", trainee_researchers: "7859", female_researchers_pct: 19, private_funding_pct: 30, records_wos_10y: "3695", q1_wos_pct: 30, h_index: "135", open_access_pct: 47, num_patents: "48", num_spinoffs: "48", international_grants: "62", policy_papers: "~15", outreach_events: "~60" },
+            { name: "CSIRO", num_researchers: "~600", trainee_researchers: "≈110", female_researchers_pct: 40, private_funding_pct: 12, records_wos_10y: "~350", q1_wos_pct: 50, h_index: "90", open_access_pct: 65, num_patents: "0", num_spinoffs: "0", international_grants: "~55", policy_papers: "~42", outreach_events: "~250" },
+            { name: "CAS", num_researchers: "≈570", trainee_researchers: "N/A", female_researchers_pct: 43, private_funding_pct: 5, records_wos_10y: "945", q1_wos_pct: 42, h_index: "63", open_access_pct: 60, num_patents: "0", num_spinoffs: "0", international_grants: "~35-55", policy_papers: "~170-270", outreach_events: "~470-700" },
+            { name: "MIT", num_researchers: "~180–200", trainee_researchers: "≈700–850", female_researchers_pct: 40, private_funding_pct: 25, records_wos_10y: "1100", q1_wos_pct: 55, h_index: "66", open_access_pct: 65, num_patents: "106", num_spinoffs: "0", international_grants: "250", policy_papers: "~100-120", outreach_events: "~1.000" },
+            { name: "NIAS-KNAW", num_researchers: "21", trainee_researchers: "47", female_researchers_pct: 25, private_funding_pct: 20, records_wos_10y: "76", q1_wos_pct: 28, h_index: "21", open_access_pct: 37, num_patents: "0", num_spinoffs: "0", international_grants: "2-4", policy_papers: "5-8", outreach_events: "30-40" },
+            { name: "School of Advanced Study", num_researchers: "~350–420", trainee_researchers: "~500", female_researchers_pct: 45, private_funding_pct: 10, records_wos_10y: "150", q1_wos_pct: 50, h_index: "9", open_access_pct: 75, num_patents: "~30-50", num_spinoffs: "0", international_grants: "~30", policy_papers: "~25", outreach_events: "2.920" },
+            { name: "Scuola Normale Superiore", num_researchers: "~200", trainee_researchers: "~", female_researchers_pct: 45, private_funding_pct: 15, records_wos_10y: "~480", q1_wos_pct: 55, h_index: "31", open_access_pct: 60, num_patents: "~2", num_spinoffs: "0", international_grants: "~60", policy_papers: "~20", outreach_events: "~80" },
+            { name: "IAS (Princeton)", num_researchers: "26", trainee_researchers: "~259", female_researchers_pct: 34, private_funding_pct: 70, records_wos_10y: "4084", q1_wos_pct: 60, h_index: "172", open_access_pct: 40, num_patents: "6", num_spinoffs: "0", international_grants: "~10-15", policy_papers: "~3-5", outreach_events: "~50-60" },
+            { name: "Max Planck Society", num_researchers: "~430", trainee_researchers: "≈ 350–400", female_researchers_pct: 47, private_funding_pct: 4, records_wos_10y: "~7.000", q1_wos_pct: 50, h_index: "189", open_access_pct: 65, num_patents: "0", num_spinoffs: "0", international_grants: "~35", policy_papers: "~30", outreach_events: "~250-300" }
+        ];
+        
+        const displayInstitutionsData = allInstitutionsData.slice(1); // Exclude CSIC from display
+
+        // --- ICONS ---
+        const icons = {
+            researchers: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+            trainees: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>`,
+            female: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"/><path d="M12 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M12 18v2"/></svg>`,
+            private_funding: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+            records: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>`,
+            h_index: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 17 2 2 4-4"></path><path d="M8 7h8"></path><path d="M8 12h4"></path><path d="M12 3v10"></path></svg>`,
+            q1: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-4a2 2 0 0 1 2-2h4"/><path d="M7 4v16"/><path d="M15 4v10a2 2 0 0 0 2 2h4"/><path d="M3 4h10a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/></svg>`,
+            open_access: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 14c.2-1 .2-2 0-3l-1.4-1.4c-.2-.2-.3-.5-.3-.7l-.2-1.7c-.1-1.1-.9-2-2-2l-1.7-.2c-.2 0-.5-.1-.7-.3L14 2.8c-.8-.8-2-.8-2.8 0L9.8 4.2c-.2.2-.5.3-.7.3l-1.7.2c-1.1.1-2 .9-2 2l-.2 1.7c0 .2-.1.5-.3.7L3.5 11c-.2 1-.2 2 0 3l1.4 1.4c.2.2.3.5.3.7l.2 1.7c.1 1.1.9 2 2 2l1.7.2c.2 0 .5.1.7.3l1.4 1.4c.8.8 2 .8 2.8 0l1.4-1.4c.2-.2.5-.3.7-.3l1.7-.2c1.1-.1 2-.9 2-2l.2-1.7c0-.2.1-.5.3-.7Z"/><circle cx="12" cy="12" r="4"/></svg>`,
+            patents: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 9 2c-3.3 0-6 2.7-6 6 0 1.3.5 2.6 1.5 3.5.7.8 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>`,
+            spinoffs: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.3.05-3.1S6.15 15.65 4.5 16.5z"></path><path d="m12 15-3-3a2.25 2.25 0 0 1 0-3l3-3a2.25 2.25 0 0 1 3 0l3 3a2.25 2.25 0 0 1 0 3l-3 3a2.25 2.25 0 0 1-3 0z"></path><path d="m21 21-1.5-1.5"></path><path d="M3 3l1.5 1.5"></path></svg>`,
+            globe: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>`,
+            policy: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>`,
+            outreach: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>`,
+        };
+
+        // --- UTILITY ---
+        function parseValue(value) {
+            if (typeof value === 'number') return value;
+            if (typeof value !== 'string' || value.toLowerCase() === 'n/a') return 0;
+            
+            value = value.replace(/≈|~/g, '').trim();
+            
+            // Handle ranges like "100–120" or "170-270"
+            if (value.includes('–') || value.includes('-')) {
+                const parts = value.split(/–|-/).map(p => parseFloat(p.replace(/[^0-9.,]/g, '').replace(',', '.')));
+                const validParts = parts.filter(p => !isNaN(p));
+                if (validParts.length === 0) return 0;
+                const sum = validParts.reduce((a, b) => a + b, 0);
+                return Math.round(sum / validParts.length);
+            }
+            
+            // Handle single numbers, potentially with commas as decimal separators
+            return parseFloat(value.replace(/[^0-9.,]/g, '').replace(',', '.')) || 0;
+        }
+
+        // --- UI COMPONENTS ---
+        function createBarChartCard(title, icon, dataKey, barColor, unit = '') {
+            let chartData = displayInstitutionsData.map(inst => ({
+                name: inst.name.replace(' (Princeton)', ''),
+                value: parseValue(inst[dataKey])
+            })).filter(d => d.value > 0);
+
+            if (chartData.length === 0) return '';
+
+            const maxValue = Math.max(...chartData.map(d => d.value));
+
+            const barsHtml = chartData.sort((a, b) => b.value - a.value).map(item => `
+                <div class="bar-item">
+                    <div class="bar-label" title="${item.name}">${item.name}</div>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="width: ${maxValue > 0 ? (item.value / maxValue) * 100 : 0}%; background-color: ${barColor};">
+                            ${item.value.toLocaleString('es-ES')}${unit}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="card p-5">
+                    <h3 class="font-semibold text-gray-700 mb-4 flex items-center gap-3" style="color:${barColor};">
+                        ${icon.replace('currentColor', barColor)} ${title}
+                    </h3>
+                    <div>${barsHtml}</div>
+                </div>
+            `;
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const estructuraContainer = document.getElementById('estructura-container');
+            const produccionContainer = document.getElementById('produccion-container');
+            const transferenciaContainer = document.getElementById('transferencia-container');
+            const impactoContainer = document.getElementById('impacto-container');
+
+            if (estructuraContainer) {
+                estructuraContainer.innerHTML = 
+                    createBarChartCard("Número de Investigadores", icons.researchers, 'num_researchers', '#4f46e5') +
+                    createBarChartCard("Investigadores en Formación", icons.trainees, 'trainee_researchers', '#4f46e5') +
+                    createBarChartCard("% Investigadoras", icons.female, 'female_researchers_pct', '#818cf8', '%') +
+                    createBarChartCard("% Financiación Privada", icons.private_funding, 'private_funding_pct', '#818cf8', '%');
+            }
+
+            if(produccionContainer) {
+                produccionContainer.innerHTML = 
+                    createBarChartCard("Publicaciones (10 años)", icons.records, 'records_wos_10y', '#0d9488') +
+                    createBarChartCard("H-Index", icons.h_index, 'h_index', '#0d9488') +
+                    createBarChartCard("% Publicaciones en Q1", icons.q1, 'q1_wos_pct', '#2dd4bf', '%') +
+                    createBarChartCard("% Acceso Abierto", icons.open_access, 'open_access_pct', '#2dd4bf', '%');
+            }
+
+            if(transferenciaContainer) {
+                 transferenciaContainer.innerHTML = 
+                    createBarChartCard("Patentes", icons.patents, 'num_patents', '#d97706') +
+                    createBarChartCard("Spinoffs", icons.spinoffs, 'num_spinoffs', '#d97706') +
+                    createBarChartCard("Proyectos Internacionales", icons.globe, 'international_grants', '#fbbf24');
+            }
+            
+            if(impactoContainer) {
+                impactoContainer.innerHTML = 
+                    createBarChartCard("Policy Papers", icons.policy, 'policy_papers', '#0284c7') +
+                    createBarChartCard("Eventos de Divulgación", icons.outreach, 'outreach_events', '#0284c7');
+            }
+        });
+    </script>
+</body>
+</html>
