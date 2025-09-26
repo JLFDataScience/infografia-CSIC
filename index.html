@@ -79,39 +79,6 @@
             color: #374151;
             margin-top: 1rem;
         }
-        .loader {
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #4f46e5;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-        }
         .subarea-item {
             display: flex;
             align-items: center;
@@ -143,15 +110,6 @@
             <!-- Las tarjetas se insertarán aquí mediante JavaScript -->
         </main>
     </div>
-    
-    <!-- Modal for errors -->
-    <div id="error-modal" class="modal-backdrop hidden">
-        <div class="modal-content">
-            <h3 class="text-lg font-bold text-red-600 mb-2">Error</h3>
-            <p id="error-message" class="text-gray-700"></p>
-            <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Cerrar</button>
-        </div>
-    </div>
 
     <script>
         // --- DATA ---
@@ -176,7 +134,8 @@
                 num_spinoffs: "42",
                 international_grants: "14",
                 policy_papers: "~22",
-                outreach_events: "~30/año"
+                outreach_events: "~30/año",
+                analysis_text: "El CNRS muestra una escala de investigación considerablemente mayor que el CSIC, con un número de investigadores y un volumen de publicaciones muy superior. Sin embargo, su porcentaje de financiación privada es similar y su H-index, aunque alto, no es proporcionalmente tan distante, mientras que su transferencia tecnológica en patentes y spinoffs es más robusta."
             },
             {
                 code: "FGCSICSH0002",
@@ -198,7 +157,8 @@
                 num_spinoffs: "49",
                 international_grants: "20",
                 policy_papers: "~25",
-                outreach_events: "~38/año"
+                outreach_events: "~38/año",
+                analysis_text: "El CNR presenta un tamaño de personal investigador similar al del CSIC, pero destaca por una producción científica y un H-index significativamente superiores. En transferencia tecnológica, supera ampliamente al CSIC en patentes y spinoffs, mostrando un modelo más enfocado a la innovación."
             },
             {
                 code: "FGCSICSH0003",
@@ -220,7 +180,8 @@
                 num_spinoffs: "48",
                 international_grants: "62",
                 policy_papers: "~15",
-                outreach_events: "~60"
+                outreach_events: "~60",
+                analysis_text: "Helmholtz opera a una escala mucho mayor que el CSIC en términos de investigadores y presupuesto, con una financiación privada notablemente más alta. A pesar de su tamaño, su producción científica en publicaciones es comparable, pero su impacto (H-index) y su actividad de transferencia (patentes y spinoffs) son sustancialmente mayores."
             },
             {
                 code: "FGCSICSH0004",
@@ -242,7 +203,8 @@
                 num_spinoffs: "0",
                 international_grants: "~55",
                 policy_papers: "~42",
-                outreach_events: "~250"
+                outreach_events: "~250",
+                analysis_text: "CSIRO tiene un número de investigadores similar al CSIC, pero con un H-index considerablemente más alto, lo que sugiere un mayor impacto de sus publicaciones. Destaca por una mayor financiación privada, aunque su transferencia tecnológica en términos de patentes y spinoffs es nula, a diferencia del CSIC."
             },
             {
                 code: "FGCSICSH0005",
@@ -264,7 +226,8 @@
                 num_spinoffs: "0",
                 international_grants: "~35-55",
                 policy_papers: "~170-270",
-                outreach_events: "~470-700"
+                outreach_events: "~470-700",
+                analysis_text: "El CAS presenta un número de investigadores similar al del CSIC, con una producción científica mayor y un H-index significativamente más alto. Sin embargo, su financiación privada es idéntica y carece de patentes y spinoffs, mostrando una menor actividad en transferencia tecnológica directa en comparación."
             },
             {
                 code: "FGCSICSH0006",
@@ -286,7 +249,8 @@
                 num_spinoffs: "0",
                 international_grants: "250",
                 policy_papers: "~100-120",
-                outreach_events: "~1.000"
+                outreach_events: "~1.000",
+                analysis_text: "El MIT, aunque con menos investigadores, muestra un H-index y un volumen de publicaciones considerablemente superiores al del CSIC, indicando un alto impacto. Destaca por una financiación privada mucho mayor y una producción de patentes masiva, aunque no registra spinoffs en estos datos."
             },
             {
                 code: "FGCSICSH0007",
@@ -308,7 +272,8 @@
                 num_spinoffs: "0",
                 international_grants: "2-4",
                 policy_papers: "5-8",
-                outreach_events: "30-40"
+                outreach_events: "30-40",
+                analysis_text: "NIAS-KNAW es una institución mucho más pequeña que el CSIC en personal y producción científica, con un H-index similar. Destaca por un porcentaje de financiación privada significativamente mayor, aunque su actividad de transferencia y impacto en publicaciones es limitada en comparación."
             },
             {
                 code: "FGCSICSH0008",
@@ -330,7 +295,8 @@
                 num_spinoffs: "0",
                 international_grants: "~30",
                 policy_papers: "~25",
-                outreach_events: "2.920"
+                outreach_events: "2.920",
+                analysis_text: "Con un número de investigadores menor al del CSIC, la School of Advanced Study presenta un H-index y un volumen de publicaciones significativamente más bajos. Sin embargo, muestra una mayor dependencia de la financiación privada y un número de patentes superior, a pesar de no tener spinoffs."
             },
             {
                 code: "FGCSICSH0009",
@@ -352,7 +318,8 @@
                 num_spinoffs: "0",
                 international_grants: "~60",
                 policy_papers: "~20",
-                outreach_events: "~80"
+                outreach_events: "~80",
+                analysis_text: "La Scuola Normale Superiore, con menos investigadores que el CSIC, presenta un H-index y una producción de publicaciones ligeramente superiores. Destaca por un porcentaje de financiación privada tres veces mayor, aunque su registro de patentes y spinoffs es comparablemente bajo."
             },
             {
                 code: "FGCSICSH0010",
@@ -374,7 +341,8 @@
                 num_spinoffs: "0",
                 international_grants: "~10-15",
                 policy_papers: "~3-5",
-                outreach_events: "~50-60"
+                outreach_events: "~50-60",
+                analysis_text: "El IAS de Princeton, a pesar de tener un número de investigadores muy inferior al del CSIC, demuestra un impacto científico extraordinariamente superior, reflejado en su H-index y volumen de publicaciones. Su modelo se sustenta en una altísima financiación privada, aunque su transferencia en patentes es modesta y no genera spinoffs."
             },
             {
                 code: "FGCSICSH0011",
@@ -396,7 +364,8 @@
                 num_spinoffs: "0",
                 international_grants: "~35",
                 policy_papers: "~30",
-                outreach_events: "~250-300"
+                outreach_events: "~250-300",
+                analysis_text: "La Max Planck Society, con un número de investigadores ligeramente inferior al del CSIC, presenta una producción científica y un H-index abrumadoramente superiores. Su financiación privada es comparablemente baja, y al igual que el CSIC, muestra una actividad de transferencia tecnológica limitada en términos de patentes y spinoffs."
             }
         ];
 
@@ -436,80 +405,61 @@
 
         function createSubareaDistribution(dataString) {
             if (!dataString) return '';
+            
+            let parsedItems = [];
+            const items = dataString.split(';');
 
-            // 1. Parse into a structured array
-            let parsedItems = dataString.split(/[,;]/).map(item => {
-                const parts = item.split(':').map(p => p.trim());
-                if (parts.length !== 2) return null;
-                const name = parts[0];
-                const valueStr = parts[1];
-                const isPct = valueStr.includes('%');
-                const value = parseFloat(valueStr.replace('%', ''));
-                if (isNaN(value)) return null;
-                return { name, value, isPct };
-            }).filter(Boolean);
+            for (const item of items) {
+                 if (item.trim() === '') continue;
 
-            // 2. Normalize to percentages if needed
-            const containsAbsoluteValues = parsedItems.some(item => !item.isPct);
-            if (containsAbsoluteValues && parsedItems.length > 0) {
-                const total = parsedItems.reduce((sum, item) => sum + item.value, 0);
-                if (total > 0) {
-                    parsedItems.forEach(item => {
-                        item.percentage = Math.round((item.value / total) * 100);
-                    });
-                } else {
-                     parsedItems.forEach(item => { item.percentage = 0; });
+                if (item.includes(':')) { // Format: "Name: Value, Name: Value"
+                    const subItems = item.split(',');
+                    for(const subItem of subItems) {
+                         const parts = subItem.split(':').map(p => p.trim());
+                        if (parts.length !== 2) continue;
+                        const name = parts[0];
+                        const value = parseFloat(parts[1].replace('%', ''));
+                        if (!isNaN(value)) {
+                            parsedItems.push({ name, percentage: value });
+                        }
+                    }
+                } else { // Format: "Name 30–35 %"
+                    const match = item.match(/(.+?)\s*(\d+)(?:–(\d+))?\s*%/);
+                    if (match) {
+                        const name = match[1].trim();
+                        const val1 = parseInt(match[2], 10);
+                        const val2 = match[3] ? parseInt(match[3], 10) : val1;
+                        const percentage = Math.round((val1 + val2) / 2);
+                        parsedItems.push({ name, percentage });
+                    }
                 }
-            } else {
-                parsedItems.forEach(item => {
-                    item.percentage = item.value;
-                });
             }
 
-            // 3. Sort by percentage (descending) and take top 5
+            // Normalize, sort, and take top 5
             const top5Items = parsedItems
                 .sort((a, b) => b.percentage - a.percentage)
                 .slice(0, 5);
 
-            // 4. Generate HTML for the top 5
+            // Generate HTML for the top 5
             return top5Items.map(item => {
                 let { name, percentage } = item;
                 if (!name || isNaN(percentage)) return '';
 
                 const translations = {
-                    "Anthropology": "Antropología",
-                    "Archaeology": "Arqueología",
-                    "Arts, Creation and Performance": "Artes, Creación y Performance",
-                    "Classical Studies and their Reception": "Estudios Clásicos",
-                    "Economics and Management": "Economía y Gestión",
-                    "Geography and Territorial Sciences": "Geografía y Ciencias Territoriales",
-                    "History": "Historia",
-                    "Language Science": "Ciencia del Lenguaje",
-                    "Literature": "Literatura",
-                    "Philosophy": "Filosofía",
-                    "Legal Science": "Ciencia Jurídica",
-                    "Political Science": "Ciencia Política",
-                    "Sociology": "Sociología",
-                    "Social Sciences": "Ciencias Sociales",
-                    "Cultural Heritage": "Patrimonio Cultural",
-                    "Economics": "Economía",
-                    "Humanities": "Humanidades",
-                    "Law/Politics": "Derecho/Política",
-                    "Economics and Law": "Economía y Derecho",
-                    "Psychology and Education": "Psicología y Educación",
-                    "Other": "Otros",
-                    "Social and Economic Sciences": "Ciencias Sociales y Económicas",
-                    "Indigenous Studies": "Estudios Indígenas",
-                    "Governance and Policy": "Gobernanza y Políticas",
-                    "History of Science": "Historia de la Ciencia",
-                    "Science & Technology Studies": "Estudios de Ciencia y Tecnología",
-                    "Heritage/Archives": "Patrimonio/Archivos",
-                    "Communication": "Comunicación",
-                    "Linguistics and Philosophy": "Lingüística y Filosofía",
-                    "Arts": "Artes",
-                    "Law": "Derecho",
-                    "Classics": "Clásicos",
-                    "Modern Languages": "Lenguas Modernas"
+                    "Anthropology": "Antropología", "Archaeology": "Arqueología", "Arts, Creation and Performance": "Artes, Creación y Performance",
+                    "Classical Studies and their Reception": "Estudios Clásicos", "Economics and Management": "Economía y Gestión", "Geography and Territorial Sciences": "Geografía y Ciencias Territoriales",
+                    "History": "Historia", "Language Science": "Ciencia del Lenguaje", "Literature": "Literatura", "Philosophy": "Filosofía",
+                    "Legal Science": "Ciencia Jurídica", "Political Science": "Ciencia Política", "Sociology": "Sociología", "Social Sciences": "Ciencias Sociales",
+                    "Cultural Heritage": "Patrimonio Cultural", "Economics": "Economía", "Humanities": "Humanidades", "Law/Politics": "Derecho/Política",
+                    "Economics and Law": "Economía y Derecho", "Psychology and Education": "Psicología y Educación", "Other": "Otros",
+                    "Social and Economic Sciences": "Ciencias Sociales y Económicas", "Indigenous Studies": "Estudios Indígenas", "Governance and Policy": "Gobernanza y Políticas",
+                    "History of Science": "Historia de la Ciencia", "Science & Technology Studies": "Estudios de Ciencia y Tecnología", "Heritage/Archives": "Patrimonio/Archivos",
+                    "Communication": "Comunicación", "Linguistics and Philosophy": "Lingüística y Filosofía", "Arts": "Artes", "Law": "Derecho",
+                    "Classics": "Clásicos", "Modern Languages": "Lenguas Modernas",
+                    // CSIC translations
+                    "Historia/Historia de la ciencia": "Historia/Hª de la Ciencia", "Política/Prospectiva/Innovación": "Política/Prospectiva/Innovación",
+                    "Lingüística/Literatura/Humanidades": "Lingüística/Literatura/Humanidades", "Estudios CyT/Comunicación": "Estudios CyT/Comunicación",
+                    "Patrimonio/Archivo": "Patrimonio/Archivo"
                 };
 
                 const translatedName = translations[name.trim()] || name;
@@ -571,120 +521,18 @@
                      <!-- Gemini Feature -->
                     <div class="mt-4 pt-4 border-t border-gray-200">
                          <h3 class="font-semibold text-gray-700 mb-2">Análisis Estratégico</h3>
-                         <div id="analysis-loader-${index}" class="text-center mt-2">
-                            <div class="loader"></div> <span class="text-sm text-gray-500 ml-2">Generando...</span>
-                         </div>
-                         <div id="analysis-output-${index}" class="gemini-analysis" style="display: none;"></div>
+                         <div id="analysis-output-${index}" class="gemini-analysis">${data.analysis_text.replace(/\*/g, '•')}</div>
                     </div>
                 </div>`;
         }
         
-        // --- GEMINI API INTEGRATION ---
-        const API_KEY = ""; // Keep this empty
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
-        
-        async function generateAnalysis(data, index) {
-            const loader = document.getElementById(`analysis-loader-${index}`);
-            const output = document.getElementById(`analysis-output-${index}`);
-
-            output.style.display = 'none';
-            loader.style.display = 'block';
-
-            const systemPrompt = "Actúa como un analista experto en estrategia de instituciones de investigación. Analiza los datos proporcionados y redacta un resumen de 2-3 frases destacando las fortalezas clave y posibles áreas de mejora o características distintivas. Sé conciso y profesional.";
-            
-            const userQuery = `
-                Analiza la siguiente institución:
-                - Nombre: ${data.name}
-                - País: ${data.country}
-                - Modelo de Financiación: ${data.financing_model}
-                - Investigadores: ${data.num_researchers}
-                - Investigadores en formación: ${data.trainee_researchers}
-                - % Investigadoras: ${data.female_researchers_pct}%
-                - Presupuesto Anual: ${data.total_financing_budget}
-                - % Financiación Privada: ${data.private_funding_pct}%
-                - Publicaciones (10 años): ${data.records_wos_10y}
-                - H-Index: ${data.h_index}
-                - % Publicaciones en Q1: ${data.q1_wos_pct}%
-                - % Acceso Abierto: ${data.open_access_pct}%
-                - Patentes: ${data.num_patents}
-                - Spinoffs: ${data.num_spinoffs}
-                - Proyectos Internacionales: ${data.international_grants}
-                - Policy Papers: ${data.policy_papers}
-                - Eventos de Divulgación: ${data.outreach_events}
-                
-                Proporciona el análisis.
-            `;
-            
-            const payload = {
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-                contents: [{ parts: [{ text: userQuery }] }],
-            };
-            
-            try {
-                const response = await fetchWithRetry(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.status} ${response.statusText}`);
-                }
-
-                const result = await response.json();
-                const analysisText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                if (analysisText) {
-                    output.innerText = analysisText.replace(/\*/g, '•'); // Replace markdown stars with bullets
-                    output.style.display = 'block';
-                } else {
-                    throw new Error("No se recibió un análisis válido de la API.");
-                }
-            } catch (error) {
-                console.error(`Error generating analysis for ${data.name}:`, error);
-                output.innerText = 'No se pudo generar el análisis.';
-                output.style.color = '#ef4444';
-                output.style.display = 'block';
-            } finally {
-                loader.style.display = 'none';
-            }
-        }
-        
-        // --- UTILITY FUNCTIONS ---
-        async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok && response.status === 429) { // Throttling
-                        await new Promise(res => setTimeout(res, delay * (i + 1)));
-                        continue;
-                    }
-                    return response;
-                } catch (error) {
-                    if (i === retries - 1) throw error;
-                    await new Promise(res => setTimeout(res, delay * (i + 1)));
-                }
-            }
-        }
-        
-        function showModal(message) {
-            document.getElementById('error-message').innerText = message;
-            document.getElementById('error-modal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('error-modal').classList.add('hidden');
-        }
-
         // --- INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('institutions-container');
             if (container) {
-                container.innerHTML = institutionsData.map((inst, index) => createInstitutionCard(inst, index)).join('');
-                // Process analysis sequentially to avoid rate limiting
-                for (let i = 0; i < institutionsData.length; i++) {
-                    await generateAnalysis(institutionsData[i], i);
-                }
+                 // Remove CSIC from data for display
+                const displayData = institutionsData.slice(1);
+                container.innerHTML = displayData.map((inst, index) => createInstitutionCard(inst, index)).join('');
             }
         });
     </script>
