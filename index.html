@@ -530,9 +530,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('institutions-container');
             if (container) {
-                 // Remove CSIC from data for display
-                const displayData = institutionsData.slice(1);
-                container.innerHTML = displayData.map((inst, index) => createInstitutionCard(inst, index)).join('');
+                container.innerHTML = institutionsData.map((inst, index) => createInstitutionCard(inst, index)).join('');
             }
         });
     </script>
