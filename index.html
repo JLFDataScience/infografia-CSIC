@@ -112,6 +112,13 @@
             width: 90%;
             text-align: center;
         }
+        .subarea-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #4b5563;
+        }
     </style>
 </head>
 <body class="p-4 sm:p-6 md:p-8">
@@ -149,20 +156,22 @@
     <script>
         // --- DATA ---
         const institutionsData = [
-             {
+            {
                 code: "FGCSICSH0001",
                 name: "CNRS",
                 logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Cnrs-logo.svg/1200px-Cnrs-logo.svg.png",
                 country: "FRANCIA",
+                financing_model: "Mixto",
                 num_researchers: "9804",
                 trainee_researchers: "~11500",
                 female_researchers_pct: 35,
-                total_financing_budget: "18M €",
+                total_financing_budget: "18M €/año",
                 private_funding_pct: 15,
                 records_wos_10y: "10697",
                 q1_wos_pct: 35,
                 h_index: "109",
                 open_access_pct: 65,
+                records_subarea: "Anthropology: 5, Archaeology: 8, Arts, Creation and Performance: 2, Classical Studies and their Reception: 3, Economics and Management: 40, Geography and Territorial Sciences: 25, History: 12, Language Science: 6, Literature: 2, Philosophy: 1, Legal Science: 4, Political Science: 10, Sociology: 72",
                 num_patents: "28",
                 num_spinoffs: "42",
                 international_grants: "14",
@@ -174,35 +183,39 @@
                 name: "CNR",
                 logoUrl: "https://www.iciap2021.org/wp-content/uploads/2020/05/Logo-CNR-2010-ENG-high.png",
                 country: "ITALIA",
+                financing_model: "Mixto",
                 num_researchers: "435",
                 trainee_researchers: "~400",
                 female_researchers_pct: 52,
-                total_financing_budget: "67M €",
+                total_financing_budget: "67M €/año",
                 private_funding_pct: 8,
                 records_wos_10y: "3608",
                 q1_wos_pct: 55,
                 h_index: "122",
                 open_access_pct: 60,
+                records_subarea: "Social Sciences: 30%, Cultural Heritage: 25%, Economics: 20%, Humanities: 15%, Law/Politics: 10%",
                 num_patents: "49",
                 num_spinoffs: "49",
                 international_grants: "20",
                 policy_papers: "~25",
                 outreach_events: "~38/año"
             },
-             {
+            {
                 code: "FGCSICSH0003",
                 name: "Helmholtz-Gemeinschaft",
                 logoUrl: "https://www.gfz.de/fileadmin/_processed_/a/1/csm_Helmholtzgemeinschaft_Logo_bb3b53f298.png",
                 country: "ALEMANIA",
+                financing_model: "Mixto: financiación pública federal y estatal (90 %) + proyectos competitivos y contratos privados (10 %)",
                 num_researchers: "5871",
                 trainee_researchers: "7859",
                 female_researchers_pct: 19,
-                total_financing_budget: "1.147M €",
+                total_financing_budget: "1.147M €/año",
                 private_funding_pct: 30,
                 records_wos_10y: "3695",
                 q1_wos_pct: 30,
                 h_index: "135",
                 open_access_pct: 47,
+                records_subarea: "Social Sciences: 50%, Economics and Law: 20%, Psychology and Education: 15%, Humanities: 10%, Other: 5%",
                 num_patents: "48",
                 num_spinoffs: "48",
                 international_grants: "62",
@@ -214,6 +227,7 @@
                 name: "CSIRO",
                 logoUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/9/92/CSIRO_Logo.svg/2048px-CSIRO_Logo.svg.png",
                 country: "AUSTRALIA",
+                financing_model: "Mixto: financiación pública del gobierno australiano (appropriation funding) + ingresos externos (proyectos, licencias)",
                 num_researchers: "~600",
                 trainee_researchers: "≈110",
                 female_researchers_pct: 40,
@@ -223,6 +237,7 @@
                 q1_wos_pct: 50,
                 h_index: "90",
                 open_access_pct: 65,
+                records_subarea: "Social and Economic Sciences: 60%, Indigenous Studies: 20%, Governance and Policy: 15%, Other: 5%",
                 num_patents: "0",
                 num_spinoffs: "0",
                 international_grants: "~55",
@@ -234,7 +249,8 @@
                 name: "CAS",
                 logoUrl: "https://www.efmdglobal.org/wp-content/uploads/Univ_of_Chinese_Acad_of_Science_logoN.png",
                 country: "CHINA",
-                num_researchers: "570",
+                financing_model: "Mixto: financiación pública central CAS + proyectos competitivos nacionales e internacionales + contratos de consultoría (ISTSC) + matrículas/fees (UCAS)",
+                num_researchers: "≈570",
                 trainee_researchers: "N/A",
                 female_researchers_pct: 43,
                 total_financing_budget: "32,5-39M €",
@@ -243,6 +259,7 @@
                 q1_wos_pct: 42,
                 h_index: "63",
                 open_access_pct: 60,
+                records_subarea: "History of Science: 55%, Science & Technology Studies: 22%, Heritage/Archives: 12%, Communication: 11%",
                 num_patents: "0",
                 num_spinoffs: "0",
                 international_grants: "~35-55",
@@ -254,6 +271,7 @@
                 name: "MIT",
                 logoUrl: "https://studyarchitecture.com/wp-content/uploads/mit-logo-1-2.png",
                 country: "EEUU",
+                financing_model: "Mixto: endowment (~40 %) + donaciones y gifts (~25 %) + grants competitivos federales y privados (~35 %)",
                 num_researchers: "~180–200",
                 trainee_researchers: "≈700–850",
                 female_researchers_pct: 40,
@@ -263,6 +281,7 @@
                 q1_wos_pct: 55,
                 h_index: "66",
                 open_access_pct: 65,
+                records_subarea: "Economics: 30%, Political Science: 25%, Linguistics and Philosophy: 20%, History: 15%, Anthropology: 10%",
                 num_patents: "106",
                 num_spinoffs: "0",
                 international_grants: "250",
@@ -274,6 +293,7 @@
                 name: "NIAS-KNAW",
                 logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD7nQEvUbOFMVFOS5P30VUCNUpt_ENVWHvrw&s",
                 country: "PAÍSES BAJOS",
+                financing_model: "Mixto: financiación pública (KNAW) + fundaciones privadas + tasas de participación",
                 num_researchers: "21",
                 trainee_researchers: "47",
                 female_researchers_pct: 25,
@@ -283,6 +303,7 @@
                 q1_wos_pct: 28,
                 h_index: "21",
                 open_access_pct: 37,
+                records_subarea: "Social Sciences: 40%, Humanities: 35%, Arts: 15%, Law: 10%",
                 num_patents: "0",
                 num_spinoffs: "0",
                 international_grants: "2-4",
@@ -294,6 +315,7 @@
                 name: "School of Advanced Study",
                 logoUrl: "https://upload.wikimedia.org/wikipedia/commons/5/50/School_of_Advanced_Study_Logo.png",
                 country: "REINO UNIDO",
+                financing_model: "Mixto: financiación pública (Research England) + tasas académicas + donaciones",
                 num_researchers: "~350–420",
                 trainee_researchers: "~500",
                 female_researchers_pct: 45,
@@ -303,6 +325,7 @@
                 q1_wos_pct: 50,
                 h_index: "9",
                 open_access_pct: 75,
+                records_subarea: "History: 30%, Law: 25%, Literature: 20%, Classics: 15%, Modern Languages: 10%",
                 num_patents: "~30-50",
                 num_spinoffs: "0",
                 international_grants: "~30",
@@ -314,15 +337,17 @@
                 name: "Scuola Normale Superiore",
                 logoUrl: "https://keystoneacademic-res.cloudinary.com/image/upload/c_pad,w_640,h_304/dpr_auto/f_auto/q_auto/v1/element/13/136457_logo_sanna_en.png",
                 country: "ITALIA",
+                financing_model: "Mixto: financiación pública estatal + proyectos competitivos + donaciones privadas",
                 num_researchers: "~200",
                 trainee_researchers: "~",
                 female_researchers_pct: 45,
-                total_financing_budget: "≈~220–240M €",
+                total_financing_budget: "≈220–240M €",
                 private_funding_pct: 15,
                 records_wos_10y: "~480",
                 q1_wos_pct: 55,
                 h_index: "31",
                 open_access_pct: 60,
+                records_subarea: "Humanities: 40%, Social Sciences: 30%, Political Science: 20%, Economics: 10%",
                 num_patents: "~2",
                 num_spinoffs: "0",
                 international_grants: "~60",
@@ -334,6 +359,7 @@
                 name: "IAS (Princeton)",
                 logoUrl: "https://fundit.fr/sites/default/files/styles/max_650x650/public/institutions/capture-decran-2023-06-22-120050.png?itok=pE3Z5Nhf",
                 country: "EEUU",
+                financing_model: "5% Endowment (900 M$) + donaciones privadas + grants competitivos",
                 num_researchers: "26",
                 trainee_researchers: "~259",
                 female_researchers_pct: 34,
@@ -343,6 +369,7 @@
                 q1_wos_pct: 60,
                 h_index: "172",
                 open_access_pct: 40,
+                records_subarea: "Ciencias Sociales: 11.6 %, Historia: 1.5 %, Ciencias Naturales: 85.8 %, Matemáticas: 1.2 %",
                 num_patents: "6",
                 num_spinoffs: "0",
                 international_grants: "~10-15",
@@ -354,6 +381,7 @@
                 name: "Max Planck Society",
                 logoUrl: "https://www.max-planck-innovation.com/files/Logos/MPG_Logo_green_2023.png",
                 country: "ALEMANIA",
+                financing_model: "Financiación pública federal/alemana (BMBF, MPG), con proyectos europeos competitivos",
                 num_researchers: "~430",
                 trainee_researchers: "≈ 350–400",
                 female_researchers_pct: 47,
@@ -363,6 +391,7 @@
                 q1_wos_pct: 50,
                 h_index: "189",
                 open_access_pct: 65,
+                records_subarea: "Historia: 40 %; Antropología: 35 %; Derecho/Política: 15 %; Humanidades Digitales: 10 %",
                 num_patents: "0",
                 num_spinoffs: "0",
                 international_grants: "~35",
@@ -382,7 +411,14 @@
             spinoffs: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-600"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.3.05-3.1S6.15 15.65 4.5 16.5z"></path><path d="m12 15-3-3a2.25 2.25 0 0 1 0-3l3-3a2.25 2.25 0 0 1 3 0l3 3a2.25 2.25 0 0 1 0 3l-3 3a2.25 2.25 0 0 1-3 0z"></path><path d="m21 21-1.5-1.5"></path><path d="M3 3l1.5 1.5"></path></svg>`,
             globe: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-600"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>`,
             policy: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-sky-600"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>`,
-            outreach: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-sky-600"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>`
+            outreach: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-sky-600"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>`,
+            // Subarea icons
+            history: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>`,
+            social: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path></svg>`,
+            economics: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600"><path d="M3 3v18h18"></path><path d="M18.7 8a6 6 0 0 0-8.3-5.7"></path><path d="M11 11a6 6 0 0 0 8.1 4.9"></path></svg>`,
+            law: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600"><path d="M16 16.5a2.5 2.5 0 0 0-5 0"></path><path d="M20 16.5a2.5 2.5 0 0 0-5 0"></path><path d="m12.5 16.5-1-11h-1l-1 11"></path><path d="M12.5 5h-1"></path><path d="M16 4.5h2l2-2.5-2-2.5h-2v5z"></path><path d="M8 4.5H6l-2-2.5L6 0h2v5z"></path></svg>`,
+            arts: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.831-.12 2.704-.35L12.5 19.5 7.5 14l5-4.5 2.5 2.5.955-1.91A9.95 9.95 0 0 0 12 2z"></path></svg>`,
+            default: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.432 0l6.568-6.568a2.426 2.426 0 0 0 0-3.432l-8.704-8.704z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`
         };
 
         // --- UI COMPONENTS ---
@@ -398,6 +434,99 @@
              return `<div class="h-index-item text-gray-700">${icon}<p class="font-semibold text-lg mt-1">${value}</p><p class="text-xs text-gray-500">${label}</p></div>`;
         }
 
+        function createSubareaDistribution(dataString) {
+            if (!dataString) return '';
+
+            // 1. Parse into a structured array
+            let parsedItems = dataString.split(/[,;]/).map(item => {
+                const parts = item.split(':').map(p => p.trim());
+                if (parts.length !== 2) return null;
+                const name = parts[0];
+                const valueStr = parts[1];
+                const isPct = valueStr.includes('%');
+                const value = parseFloat(valueStr.replace('%', ''));
+                if (isNaN(value)) return null;
+                return { name, value, isPct };
+            }).filter(Boolean);
+
+            // 2. Normalize to percentages if needed
+            const containsAbsoluteValues = parsedItems.some(item => !item.isPct);
+            if (containsAbsoluteValues && parsedItems.length > 0) {
+                const total = parsedItems.reduce((sum, item) => sum + item.value, 0);
+                if (total > 0) {
+                    parsedItems.forEach(item => {
+                        item.percentage = Math.round((item.value / total) * 100);
+                    });
+                } else {
+                     parsedItems.forEach(item => { item.percentage = 0; });
+                }
+            } else {
+                parsedItems.forEach(item => {
+                    item.percentage = item.value;
+                });
+            }
+
+            // 3. Sort by percentage (descending) and take top 5
+            const top5Items = parsedItems
+                .sort((a, b) => b.percentage - a.percentage)
+                .slice(0, 5);
+
+            // 4. Generate HTML for the top 5
+            return top5Items.map(item => {
+                let { name, percentage } = item;
+                if (!name || isNaN(percentage)) return '';
+
+                const translations = {
+                    "Anthropology": "Antropología",
+                    "Archaeology": "Arqueología",
+                    "Arts, Creation and Performance": "Artes, Creación y Performance",
+                    "Classical Studies and their Reception": "Estudios Clásicos",
+                    "Economics and Management": "Economía y Gestión",
+                    "Geography and Territorial Sciences": "Geografía y Ciencias Territoriales",
+                    "History": "Historia",
+                    "Language Science": "Ciencia del Lenguaje",
+                    "Literature": "Literatura",
+                    "Philosophy": "Filosofía",
+                    "Legal Science": "Ciencia Jurídica",
+                    "Political Science": "Ciencia Política",
+                    "Sociology": "Sociología",
+                    "Social Sciences": "Ciencias Sociales",
+                    "Cultural Heritage": "Patrimonio Cultural",
+                    "Economics": "Economía",
+                    "Humanities": "Humanidades",
+                    "Law/Politics": "Derecho/Política",
+                    "Economics and Law": "Economía y Derecho",
+                    "Psychology and Education": "Psicología y Educación",
+                    "Other": "Otros",
+                    "Social and Economic Sciences": "Ciencias Sociales y Económicas",
+                    "Indigenous Studies": "Estudios Indígenas",
+                    "Governance and Policy": "Gobernanza y Políticas",
+                    "History of Science": "Historia de la Ciencia",
+                    "Science & Technology Studies": "Estudios de Ciencia y Tecnología",
+                    "Heritage/Archives": "Patrimonio/Archivos",
+                    "Communication": "Comunicación",
+                    "Linguistics and Philosophy": "Lingüística y Filosofía",
+                    "Arts": "Artes",
+                    "Law": "Derecho",
+                    "Classics": "Clásicos",
+                    "Modern Languages": "Lenguas Modernas"
+                };
+
+                const translatedName = translations[name.trim()] || name;
+
+                let icon;
+                const lowerName = translatedName.toLowerCase();
+                if (lowerName.includes('historia') || lowerName.includes('history') || lowerName.includes('heritage') || lowerName.includes('humanidades') || lowerName.includes('patrimonio')) icon = icons.history;
+                else if (lowerName.includes('social') || lowerName.includes('sociolog') || lowerName.includes('antropolog')) icon = icons.social;
+                else if (lowerName.includes('econom')) icon = icons.economics;
+                else if (lowerName.includes('law') || lowerName.includes('legal') || lowerName.includes('derecho') || lowerName.includes('jurídica') || lowerName.includes('polític')) icon = icons.law;
+                else if (lowerName.includes('art') || lowerName.includes('literature') || lowerName.includes('philosophy') || lowerName.includes('language') || lowerName.includes('lingüística') || lowerName.includes('filosofía') || lowerName.includes('lenguas') || lowerName.includes('clásicos')) icon = icons.arts;
+                else icon = icons.default;
+                
+                return `<div class="subarea-item">${icon}<div><strong>${percentage}%</strong> ${translatedName}</div></div>`;
+            }).join('');
+        }
+        
         function createInstitutionCard(data, index) {
             return `
                 <div class="card p-5 flex flex-col" id="card-${index}">
@@ -423,6 +552,10 @@
                                 ${createCircularChart(data.q1_wos_pct, '#2dd4bf', '% Public. en Q1')}
                                 ${createHIndexItem(icons.h_index, data.h_index, 'H-Index')}
                                 ${createCircularChart(data.open_access_pct, '#60a5fa', '% Acceso Abierto')}
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <h4 class="text-sm font-semibold text-gray-600 mb-2">Distribución por Subárea</h4>
+                                <div class="space-y-1">${createSubareaDistribution(data.records_subarea)}</div>
                             </div>
                         </div>
                         <div class="indicator-block">
@@ -463,6 +596,7 @@
                 Analiza la siguiente institución:
                 - Nombre: ${data.name}
                 - País: ${data.country}
+                - Modelo de Financiación: ${data.financing_model}
                 - Investigadores: ${data.num_researchers}
                 - Investigadores en formación: ${data.trainee_researchers}
                 - % Investigadoras: ${data.female_researchers_pct}%
@@ -543,13 +677,14 @@
         }
 
         // --- INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const container = document.getElementById('institutions-container');
             if (container) {
                 container.innerHTML = institutionsData.map((inst, index) => createInstitutionCard(inst, index)).join('');
-                institutionsData.forEach((inst, index) => {
-                    generateAnalysis(inst, index);
-                });
+                // Process analysis sequentially to avoid rate limiting
+                for (let i = 0; i < institutionsData.length; i++) {
+                    await generateAnalysis(institutionsData[i], i);
+                }
             }
         });
     </script>
