@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía Comparativa de Instituciones de Investigación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .chart-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .progress-ring {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: conic-gradient(
+                var(--chart-color, #4f46e5) calc(var(--value) * 1%), 
+                #e5e7eb 0
+            );
+        }
+        .progress-ring-inner {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+            border: 1px solid #e5e7eb;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .indicator-block {
+            border-top: 1px solid #f3f4f6;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        .indicator-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .h-index-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .gemini-analysis {
+            background-color: #f8f9fa;
+            border-left: 4px solid #4f46e5;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            color: #374151;
+            margin-top: 1rem;
+        }
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #4f46e5;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div style="position: fixed; top: 1.5rem; left: 1.5rem; z-index: 50;">
+        <img src="https://fgcsic.es/wp-content/uploads/2022/03/Logo_Horizontal_Negro_Con_Color_Fondo_Transparente-1.png" alt="Logo FGCSIC" class="h-10 w-auto">
+        <p class="text-xs text-gray-700 font-semibold mt-1">Vigilancia Estratégica</p>
+    </div>
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 sm:text-4xl">Análisis comparativo de Instituciones de Investigación</h1>
+            <p class="mt-2 text-lg text-gray-600">Visualización de indicadores clave en el Área de Ciencias Sociales y Humanidades</p>
+        </header>
+
+        <div class="flex justify-center items-center gap-12 mb-8">
+            <img src="https://www.csic.es/sites/default/files/ag-area_sociedad-perfilado.png" alt="Logo Área Sociedad CSIC" class="h-16 object-contain">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Logotipo_del_CSIC.svg/1024px-Logotipo_del_CSIC.svg.png" alt="Logo CSIC" class="h-16 object-contain">
+        </div>
+
+        <main id="institutions-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <!-- Las tarjetas se insertarán aquí mediante JavaScript -->
+        </main>
+    </div>
+    
+    <!-- Modal for errors -->
+    <div id="error-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <h3 class="text-lg font-bold text-red-600 mb-2">Error</h3>
+            <p id="error-message" class="text-gray-700"></p>
+            <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const institutionsData = [
+             {
+                code: "FGCSICSH0001",
+                name: "CNRS",
+                logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Cnrs-logo.svg/1200px-Cnrs-logo.svg.png",
+                country: "FRANCIA",
+                num_researchers: "9804",
+                trainee_researchers: "~11500",
+                female_researchers_pct: 35,
+                total_financing_budget: "18M €",
+                private_funding_pct: 15,
+                records_wos_10y: "10697",
+                q1_wos_pct: 35,
+                h_index: "109",
+                open_access_pct: 65,
+                num_patents: "28",
+                num_spinoffs: "42",
+                international_grants: "14",
+                policy_papers: "~22",
+                outreach_events: "~30/año"
+            },
+            {
+                code: "FGCSICSH0002",
+                name: "CNR",
+                logoUrl: "https://www.iciap2021.org/wp-content/uploads/2020/05/Logo-CNR-2010-ENG-high.png",
+                country: "ITALIA",
+                num_researchers: "435",
+                trainee_researchers: "~400",
+                female_researchers_pct: 52,
+                total_financing_budget: "67M €",
+                private_funding_pct: 8,
+                records_wos_10y: "3608",
+                q1_wos_pct: 55,
+                h_index: "122",
+                open_access_pct: 60,
+                num_patents: "49",
+                num_spinoffs: "49",
+                international_grants: "20",
+                policy_papers: "~25",
+                outreach_events: "~38/año"
+            },
+             {
+                code: "FGCSICSH0003",
+                name: "Helmholtz-Gemeinschaft",
+                logoUrl: "https://www.gfz.de/fileadmin/_processed_/a/1/csm_Helmholtzgemeinschaft_Logo_bb3b53f298.png",
+                country: "ALEMANIA",
+                num_researchers: "5871",
+                trainee_researchers: "7859",
+                female_researchers_pct: 19,
+                total_financing_budget: "1.147M €",
+                private_funding_pct: 30,
+                records_wos_10y: "3695",
+                q1_wos_pct: 30,
+                h_index: "135",
+                open_access_pct: 47,
+                num_patents: "48",
+                num_spinoffs: "48",
+                international_grants: "62",
+                policy_papers: "~15",
+                outreach_events: "~60"
+            },
+            {
+                code: "FGCSICSH0004",
+                name: "CSIRO",
+                logoUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/9/92/CSIRO_Logo.svg/2048px-CSIRO_Logo.svg.png",
+                country: "AUSTRALIA",
+                num_researchers: "~600",
+                trainee_researchers: "≈110",
+                female_researchers_pct: 40,
+                total_financing_budget: "≈92M €",
+                private_funding_pct: 12,
+                records_wos_10y: "~350",
+                q1_wos_pct: 50,
+                h_index: "90",
+                open_access_pct: 65,
+                num_patents: "0",
+                num_spinoffs: "0",
+                international_grants: "~55",
+                policy_papers: "~42",
+                outreach_events: "~250"
+            },
+            {
+                code: "FGCSICSH0005",
+                name: "CAS",
+                logoUrl: "https://www.efmdglobal.org/wp-content/uploads/Univ_of_Chinese_Acad_of_Science_logoN.png",
+                country: "CHINA",
+                num_researchers: "570",
+                trainee_researchers: "N/A",
+                female_researchers_pct: 43,
+                total_financing_budget: "32,5-39M €",
+                private_funding_pct: 5,
+                records_wos_10y: "945",
+                q1_wos_pct: 42,
+                h_index: "63",
+                open_access_pct: 60,
+                num_patents: "0",
+                num_spinoffs: "0",
+                international_grants: "~35-55",
+                policy_papers: "~170-270",
+                outreach_events: "~470-700"
+            },
+            {
+                code: "FGCSICSH0006",
+                name: "MIT",
+                logoUrl: "https://studyarchitecture.com/wp-content/uploads/mit-logo-1-2.png",
+                country: "EEUU",
+                num_researchers: "~180–200",
+                trainee_researchers: "≈700–850",
+                female_researchers_pct: 40,
+                total_financing_budget: "~150–200M €",
+                private_funding_pct: 25,
+                records_wos_10y: "1100",
+                q1_wos_pct: 55,
+                h_index: "66",
+                open_access_pct: 65,
+                num_patents: "106",
+                num_spinoffs: "0",
+                international_grants: "250",
+                policy_papers: "~100-120",
+                outreach_events: "~1.000"
+            },
+            {
+                code: "FGCSICSH0007",
+                name: "NIAS-KNAW",
+                logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD7nQEvUbOFMVFOS5P30VUCNUpt_ENVWHvrw&s",
+                country: "PAÍSES BAJOS",
+                num_researchers: "21",
+                trainee_researchers: "47",
+                female_researchers_pct: 25,
+                total_financing_budget: "3-5M €",
+                private_funding_pct: 20,
+                records_wos_10y: "76",
+                q1_wos_pct: 28,
+                h_index: "21",
+                open_access_pct: 37,
+                num_patents: "0",
+                num_spinoffs: "0",
+                international_grants: "2-4",
+                policy_papers: "5-8",
+                outreach_events: "30-40"
+            },
+            {
+                code: "FGCSICSH0008",
+                name: "School of Advanced Study",
+                logoUrl: "https://upload.wikimedia.org/wikipedia/commons/5/50/School_of_Advanced_Study_Logo.png",
+                country: "REINO UNIDO",
+                num_researchers: "~350–420",
+                trainee_researchers: "~500",
+                female_researchers_pct: 45,
+                total_financing_budget: "≈20–21M €",
+                private_funding_pct: 10,
+                records_wos_10y: "150",
+                q1_wos_pct: 50,
+                h_index: "9",
+                open_access_pct: 75,
+                num_patents: "~30-50",
+                num_spinoffs: "0",
+                international_grants: "~30",
+                policy_papers: "~25",
+                outreach_events: "2.920"
+            },
+            {
+                code: "FGCSICSH0009",
+                name: "Scuola Normale Superiore",
+                logoUrl: "https://keystoneacademic-res.cloudinary.com/image/upload/c_pad,w_640,h_304/dpr_auto/f_auto/q_auto/v1/element/13/136457_logo_sanna_en.png",
+                country: "ITALIA",
+                num_researchers: "~200",
+                trainee_researchers: "~",
+                female_researchers_pct: 45,
+                total_financing_budget: "≈~220–240M €",
+                private_funding_pct: 15,
+                records_wos_10y: "~480",
+                q1_wos_pct: 55,
+                h_index: "31",
+                open_access_pct: 60,
+                num_patents: "~2",
+                num_spinoffs: "0",
+                international_grants: "~60",
+                policy_papers: "~20",
+                outreach_events: "~80"
+            },
+            {
+                code: "FGCSICSH0010",
+                name: "IAS (Princeton)",
+                logoUrl: "https://fundit.fr/sites/default/files/styles/max_650x650/public/institutions/capture-decran-2023-06-22-120050.png?itok=pE3Z5Nhf",
+                country: "EEUU",
+                num_researchers: "26",
+                trainee_researchers: "~259",
+                female_researchers_pct: 34,
+                total_financing_budget: "~84–93M €",
+                private_funding_pct: 70,
+                records_wos_10y: "4084",
+                q1_wos_pct: 60,
+                h_index: "172",
+                open_access_pct: 40,
+                num_patents: "6",
+                num_spinoffs: "0",
+                international_grants: "~10-15",
+                policy_papers: "~3-5",
+                outreach_events: "~50-60"
+            },
+            {
+                code: "FGCSICSH0011",
+                name: "Max Planck Society",
+                logoUrl: "https://www.max-planck-innovation.com/files/Logos/MPG_Logo_green_2023.png",
+                country: "ALEMANIA",
+                num_researchers: "~430",
+                trainee_researchers: "≈ 350–400",
+                female_researchers_pct: 47,
+                total_financing_budget: "40-50M €",
+                private_funding_pct: 4,
+                records_wos_10y: "~7.000",
+                q1_wos_pct: 50,
+                h_index: "189",
+                open_access_pct: 65,
+                num_patents: "0",
+                num_spinoffs: "0",
+                international_grants: "~35",
+                policy_papers: "~30",
+                outreach_events: "~250-300"
+            }
+        ];
+
+        // --- ICONS ---
+        const icons = {
+            researchers: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-indigo-600"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+            trainees: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-indigo-600"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>`,
+            budget: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-indigo-600"><circle cx="8" cy="8" r="6" /><path d="M18.09 10.37A6 6 0 1 1 10.34 18" /><path d="M7 6h1v4" /><path d="M15 6h1v4" /><path d="M8 13h1v4" /><path d="M16 13h1v4" /></svg>`,
+            records: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-teal-600"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>`,
+            h_index: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-teal-600"><path d="m12 17 2 2 4-4"></path><path d="M8 7h8"></path><path d="M8 12h4"></path><path d="M12 3v10"></path></svg>`,
+            patents: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-600"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 9 2c-3.3 0-6 2.7-6 6 0 1.3.5 2.6 1.5 3.5.7.8 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>`,
+            spinoffs: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-600"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.3.05-3.1S6.15 15.65 4.5 16.5z"></path><path d="m12 15-3-3a2.25 2.25 0 0 1 0-3l3-3a2.25 2.25 0 0 1 3 0l3 3a2.25 2.25 0 0 1 0 3l-3 3a2.25 2.25 0 0 1-3 0z"></path><path d="m21 21-1.5-1.5"></path><path d="M3 3l1.5 1.5"></path></svg>`,
+            globe: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-600"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>`,
+            policy: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-sky-600"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>`,
+            outreach: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-sky-600"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>`
+        };
+
+        // --- UI COMPONENTS ---
+        function createCircularChart(value, color, label) {
+            return `<div class="flex flex-col items-center"><div class="chart-container"><div class="progress-ring" style="--value: ${value}; --chart-color: ${color};"><div class="progress-ring-inner">${value}%</div></div></div><p class="text-xs text-gray-600 mt-2 text-center w-20">${label}</p></div>`;
+        }
+        
+        function createIndicatorItem(icon, value, label) {
+            return `<div class="indicator-item text-gray-700">${icon}<div><p class="font-semibold text-lg">${value}</p><p class="text-xs text-gray-500">${label}</p></div></div>`;
+        }
+
+        function createHIndexItem(icon, value, label) {
+             return `<div class="h-index-item text-gray-700">${icon}<p class="font-semibold text-lg mt-1">${value}</p><p class="text-xs text-gray-500">${label}</p></div>`;
+        }
+
+        function createInstitutionCard(data, index) {
+            return `
+                <div class="card p-5 flex flex-col" id="card-${index}">
+                    <header class="mb-4 text-center">
+                        <div class="h-16 flex items-center justify-center mb-3">
+                            <img src="${data.logoUrl}" alt="Logo de ${data.name}" class="max-h-full max-w-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/150x50/e5e7eb/4b5563?text=Logo';">
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-900">${data.name}</h2>
+                        <p class="text-sm font-medium text-indigo-600">${data.country}</p>
+                    </header>
+                    <div class="flex-grow space-y-4">
+                        <!-- Sections... -->
+                        <div class="indicator-block">
+                            <h3 class="font-semibold text-gray-700 mb-4">Estructura Organizativa</h3>
+                            <div class="grid grid-cols-2 gap-4">${createIndicatorItem(icons.researchers, data.num_researchers, 'Investigadores')}${createIndicatorItem(icons.trainees, data.trainee_researchers, 'En formación')}</div>
+                            <div class="space-y-4 mt-4">${createIndicatorItem(icons.budget, data.total_financing_budget, 'Presupuesto Anual')}</div>
+                            <div class="flex justify-around pt-4">${createCircularChart(data.female_researchers_pct, '#818cf8', 'Investigadoras')}${createCircularChart(data.private_funding_pct, '#fbbf24', 'Financ. Privada')}</div>
+                        </div>
+                        <div class="indicator-block">
+                            <h3 class="font-semibold text-gray-700 mb-4">Producción Científica</h3>
+                            <div class="space-y-4">${createIndicatorItem(icons.records, data.records_wos_10y, 'Publicaciones (10 años)')}</div>
+                            <div class="flex justify-around items-center pt-4">
+                                ${createCircularChart(data.q1_wos_pct, '#2dd4bf', '% Public. en Q1')}
+                                ${createHIndexItem(icons.h_index, data.h_index, 'H-Index')}
+                                ${createCircularChart(data.open_access_pct, '#60a5fa', '% Acceso Abierto')}
+                            </div>
+                        </div>
+                        <div class="indicator-block">
+                            <h3 class="font-semibold text-gray-700 mb-4">Transferencia e Innovación</h3>
+                            <div class="grid grid-cols-3 gap-x-2 gap-y-4 text-center">
+                                ${createHIndexItem(icons.patents, data.num_patents, 'Patentes')}
+                                ${createHIndexItem(icons.spinoffs, data.num_spinoffs, 'Spinoffs')}
+                                ${createHIndexItem(icons.globe, data.international_grants, 'Proy. Inter.')}
+                            </div>
+                        </div>
+                        <div class="indicator-block"><h3 class="font-semibold text-gray-700 mb-4">Impacto Social y Policy</h3><div class="grid grid-cols-2 gap-4">${createIndicatorItem(icons.policy, data.policy_papers, 'Policy Papers')}${createIndicatorItem(icons.outreach, data.outreach_events, 'Eventos Divulg.')}</div></div>
+                    </div>
+                     <!-- Gemini Feature -->
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                         <h3 class="font-semibold text-gray-700 mb-2">Análisis Estratégico</h3>
+                         <div id="analysis-loader-${index}" class="text-center mt-2">
+                            <div class="loader"></div> <span class="text-sm text-gray-500 ml-2">Generando...</span>
+                         </div>
+                         <div id="analysis-output-${index}" class="gemini-analysis" style="display: none;"></div>
+                    </div>
+                </div>`;
+        }
+        
+        // --- GEMINI API INTEGRATION ---
+        const API_KEY = ""; // Keep this empty
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+        
+        async function generateAnalysis(data, index) {
+            const loader = document.getElementById(`analysis-loader-${index}`);
+            const output = document.getElementById(`analysis-output-${index}`);
+
+            output.style.display = 'none';
+            loader.style.display = 'block';
+
+            const systemPrompt = "Actúa como un analista experto en estrategia de instituciones de investigación. Analiza los datos proporcionados y redacta un resumen de 2-3 frases destacando las fortalezas clave y posibles áreas de mejora o características distintivas. Sé conciso y profesional.";
+            
+            const userQuery = `
+                Analiza la siguiente institución:
+                - Nombre: ${data.name}
+                - País: ${data.country}
+                - Investigadores: ${data.num_researchers}
+                - Investigadores en formación: ${data.trainee_researchers}
+                - % Investigadoras: ${data.female_researchers_pct}%
+                - Presupuesto Anual: ${data.total_financing_budget}
+                - % Financiación Privada: ${data.private_funding_pct}%
+                - Publicaciones (10 años): ${data.records_wos_10y}
+                - H-Index: ${data.h_index}
+                - % Publicaciones en Q1: ${data.q1_wos_pct}%
+                - % Acceso Abierto: ${data.open_access_pct}%
+                - Patentes: ${data.num_patents}
+                - Spinoffs: ${data.num_spinoffs}
+                - Proyectos Internacionales: ${data.international_grants}
+                - Policy Papers: ${data.policy_papers}
+                - Eventos de Divulgación: ${data.outreach_events}
+                
+                Proporciona el análisis.
+            `;
+            
+            const payload = {
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                contents: [{ parts: [{ text: userQuery }] }],
+            };
+            
+            try {
+                const response = await fetchWithRetry(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status} ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                const analysisText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (analysisText) {
+                    output.innerText = analysisText.replace(/\*/g, '•'); // Replace markdown stars with bullets
+                    output.style.display = 'block';
+                } else {
+                    throw new Error("No se recibió un análisis válido de la API.");
+                }
+            } catch (error) {
+                console.error(`Error generating analysis for ${data.name}:`, error);
+                output.innerText = 'No se pudo generar el análisis.';
+                output.style.color = '#ef4444';
+                output.style.display = 'block';
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+        
+        // --- UTILITY FUNCTIONS ---
+        async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok && response.status === 429) { // Throttling
+                        await new Promise(res => setTimeout(res, delay * (i + 1)));
+                        continue;
+                    }
+                    return response;
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(res => setTimeout(res, delay * (i + 1)));
+                }
+            }
+        }
+        
+        function showModal(message) {
+            document.getElementById('error-message').innerText = message;
+            document.getElementById('error-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('error-modal').classList.add('hidden');
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('institutions-container');
+            if (container) {
+                container.innerHTML = institutionsData.map((inst, index) => createInstitutionCard(inst, index)).join('');
+                institutionsData.forEach((inst, index) => {
+                    generateAnalysis(inst, index);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
